@@ -6,7 +6,7 @@
     //$customerRequestId = 4;
 	
     $sql = 	"SELECT cr.customerRequestId, cr.serviceId, cr.description, cr.userId, cr.projectStatusId,".
-			"u.name AS userName, s.serviceName,ps.name As projectStatusName ".
+			"cr.serviceProviderId, cr.quotation, u.name AS userName, s.serviceName,ps.name As projectStatusName ".
 			"FROM customerrequest cr ".
 			"INNER JOIN user u ON cr.userId = u.userId ".
 			"INNER JOIN service s ON cr.serviceId = s.serviceId ".

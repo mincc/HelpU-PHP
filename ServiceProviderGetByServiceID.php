@@ -3,7 +3,9 @@
 	include 'opendb.php';
 	
     $serviceId = $_POST["serviceId"];
-    //$serviceId = 2;
+    $userId = $_POST["userId"];
+    //$serviceId = 1;
+    //$userId = 3;
 	
 	// query the application data
 	$sql = 	"SELECT sp.serviceProviderId, sp.userId, sp.serviceId, sp.phone, sp.email, ".
@@ -11,7 +13,8 @@
 			"FROM ServiceProvider sp ".
 			"INNER JOIN user u ON sp.userId = u.userId ".
 			"INNER JOIN service s ON sp.serviceId = s.serviceId ".
-			"WHERE sp.serviceId = ?";
+			"WHERE sp.serviceId = ? ".
+			"And sp.userId <> ?";
 	
 	//Prepare statement
 	$stmt = $con->prepare($sql);
@@ -19,7 +22,7 @@
 	  trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $con->errno . ' ' . $con->error, E_USER_ERROR);}
 	
 	//Bind parameters. Types: s = string, i = integer, d = double,  b = blob 
-	$stmt->bind_param('i', $serviceId);
+	$stmt->bind_param('ii', $serviceId, $userId);
 	
 	//Execute statement 
 	$stmt->execute();
