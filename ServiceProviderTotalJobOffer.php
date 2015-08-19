@@ -1,15 +1,24 @@
 <?php
+/*
+ * 	01-07-2015 cm.choong : created
+ *	17-08-2015 cm.choong : filter by project state "Remove By View"
+ */
 	include 'config.php';
 	include 'opendb.php';
 	
-    $userId = $_POST["userId"];
-    //$userId = 9;
+	if(!$debug){
+   	 	$userId = $_POST["userId"];
+	}else{
+		$userId = 3;
+	}
 	
     $sql = 	"SELECT Count(*) AS Total ".
 			"FROM serviceprovider sp ".
 			"INNER JOIN user u ON sp.userId = u.userId ".
 			"INNER JOIN customerrequest cr ON sp.serviceProviderId = cr.serviceProviderId ".
 			"WHERE cr.projectStatusId >= 3 ".
+			"AND cr.projectStatusId <> 15 ".
+			"AND cr.projectStatusId <> 16 ". //Remove from view";
 			"AND cr.serviceProviderId is not null ".
 			"AND sp.userId = ? LIMIT 1";
     
@@ -24,10 +33,12 @@
 	//Execute statement 
 	$stmt->execute();
 	
-	/* Fetch result to array */
-	$res = $stmt->get_result();
-	$data = $res->fetch_array(MYSQLI_ASSOC);
+	$stmt->bind_result($data);
 	
+	/* fetch values */
+	while ($stmt->fetch()) {
+		$data = (array('Total' => $data));
+	}
 
     echo json_encode($data);
 	

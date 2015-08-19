@@ -1,6 +1,7 @@
 <?php
 	include 'config.php';
 	include 'opendb.php';
+	include 'DBUtils.php';
 	
     $userId = $_POST["userId"];
     //$userId = 9;
@@ -11,7 +12,7 @@
 			"INNER JOIN user u ON sp.userId = u.userId ".
 			"INNER JOIN customerrequest cr ON sp.serviceProviderId = cr.serviceProviderId ".
 			"INNER JOIN service s ON sp.serviceId = s.serviceId ".
-			"INNER JOIN projectStatus ps ON cr.projectStatusId = ps.projectStatusId ".
+			"INNER JOIN projectstatus ps ON cr.projectStatusId = ps.projectStatusId ".
 			"WHERE cr.projectStatusId = 4 ".
 			"AND cr.serviceProviderId is not null ".
 			"AND sp.userId = ? ";
@@ -27,10 +28,8 @@
 	
 	//Execute statement 
 	$stmt->execute();
-	
-	/* Fetch result to array */
-	$res = $stmt->get_result();
-	$data = $res->fetch_array(MYSQLI_ASSOC);
+	$stmt->store_result();
+	$data = fetchRow($stmt);
 	
 
     echo json_encode($data);

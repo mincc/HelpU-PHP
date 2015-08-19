@@ -1,9 +1,10 @@
 <?php
 	include 'config.php';
 	include 'opendb.php';
+	include 'DBUtils.php';
 	
     $customerRequestId = $_POST["customerRequestId"];
-    //$customerRequestId = 4;
+    //$customerRequestId = 25;
 	
     $sql = 	"SELECT cr.customerRequestId, cr.serviceId, cr.description, cr.userId, cr.projectStatusId,".
 			"cr.serviceProviderId, cr.quotation, u.name AS userName, s.serviceName,ps.name As projectStatusName ".
@@ -23,14 +24,10 @@
 	
 	//Execute statement 
 	$stmt->execute();
+	$stmt->store_result();
+	$data = fetchRow($stmt);
 	
-	/* Fetch result to array */
-	$res = $stmt->get_result();
-	$data = $res->fetch_array(MYSQLI_ASSOC);
-	
-
     echo json_encode($data);
 	
-    
     include 'closedb.php';
 ?>

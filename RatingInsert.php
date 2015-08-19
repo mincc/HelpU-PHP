@@ -1,18 +1,24 @@
 <?php
+/*
+ * 	15-07-2015 cm.choong : created
+ *  18-08-2015 cm.choong : update the service provider ratingValue column
+ */
 	include 'config.php';
 	include 'opendb.php';
 	
-    $voterId = $_POST["voterId"];
-    $targetUserId = $_POST["targetUserId"];
-    $ratingValue = $_POST["ratingValue"];
-    $ratingType = $_POST["ratingType"];
-    $customerRequestId = $_POST["customerRequestId"];
-
-// 	$voterId = 1;
-// 	$targetUserId = 2;
-// 	$ratingValue = 3;
-// 	$ratingType = "c";
-//  $customerRequestId = 1;
+	if(!$debug){
+	    $voterId = $_POST["voterId"];
+	    $targetUserId = $_POST["targetUserId"];
+	    $ratingValue = $_POST["ratingValue"];
+	    $ratingType = $_POST["ratingType"];
+	    $customerRequestId = $_POST["customerRequestId"];
+	}else{
+		$voterId = 1;
+		$targetUserId = 3;
+		$ratingValue = 3.5;
+		$ratingType = "s";
+	 	$customerRequestId = 44;
+	}
 	
     $sql= 	"INSERT INTO rating ".
     		"(voterId, targetUserId, ratingValue, ratingType, customerRequestId) ".
@@ -31,6 +37,7 @@
     	 $sql=	"UPDATE customerrequest ".
 				"SET projectStatusId = 13 ". //Customer Rating (Customer give service provider rating)
 				"WHERE customerRequestId = ?";
+
     }else if ($ratingType == "c") {
     	$sql=	"UPDATE customerrequest ".
 				"SET projectStatusId = 14 ". //Service Provider Rating (Provider service give customer rating)
@@ -44,5 +51,12 @@
     mysqli_stmt_close($statement);
     
     include 'RatingCloseCustomerRequestCase.php';
+    
+    if ($ratingType == "s") {
+    	include 'RatingGetServiceProviderRatingByServiceId.php';
+    }else{
+    	
+    }
+    
     include 'closedb.php';
 ?>

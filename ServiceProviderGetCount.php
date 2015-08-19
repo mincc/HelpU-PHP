@@ -1,10 +1,16 @@
 <?php
+/*
+ * 	01-07-2015 cm.choong : created
+ */
 	include 'config.php';
 	include 'opendb.php';
 	
-    $userId = $_POST["userId"];
-	//$userId = 3;
-
+	if(!$debug){
+    	$userId = $_POST["userId"];
+	}else{
+		$userId = 3;
+	}
+	
     $sql = "SELECT COUNT(*) AS Total FROM serviceprovider WHERE userId=?";
     
 	//Prepare statement
@@ -18,11 +24,13 @@
 	//Execute statement 
 	$stmt->execute();
 
-	/* Fetch result to array */
-	$res = $stmt->get_result();
-	$data = $res->fetch_array(MYSQLI_ASSOC);
+	$stmt->bind_result($data);
 	
-
+	/* fetch values */
+	while ($stmt->fetch()) {
+		$data = (array('Total' => $data));
+	}
+	
     echo json_encode($data);
 	
     

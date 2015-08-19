@@ -1,9 +1,16 @@
 <?php
+/*
+ * 	01-07-2015 cm.choong : created
+ */
 	include 'config.php';
 	include 'opendb.php';
+	include 'DBUtils.php';
 	
-    $userId = $_POST["userId"];
-    //$userId = 9;
+	if(!$debug){
+    	$userId = $_POST["userId"];
+	}else{
+		$userId = 3;
+	}
 	
     $sql = 	"SELECT cr.customerRequestId ".
 			"FROM serviceprovider sp ".
@@ -23,12 +30,10 @@
 	
 	//Execute statement 
 	$stmt->execute();
+	$stmt->store_result();
+	$data = fetchRow($stmt);
 	
-	/* Fetch result to array */
-	$res = $stmt->get_result();
-	$data = $res->fetch_array(MYSQLI_ASSOC);
-	
-	if (mysql_real_escape_string($data["customerRequestId"])==null) {
+	if (mysqli_real_escape_string($con, $data["customerRequestId"])==null) {
 		//result no exist
 		$result = (array('result' => false));
 	} else {
@@ -44,7 +49,7 @@
 			trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $con->errno . ' ' . $con->error, E_USER_ERROR);}
 		
 		//Bind parameters. Types: s = string, i = integer, d = double,  b = blob
-		$stmt->bind_param('i', mysql_real_escape_string($data["customerRequestId"]));
+		$stmt->bind_param('i', mysqli_real_escape_string($con, $data["customerRequestId"]));
 		
 		//Execute statement
 		$stmt->execute();
@@ -57,14 +62,15 @@
 		
 		$stmt = $con->prepare($sql);
 		if($stmt === false) {
-			trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $con->errno . ' ' . $con->error, E_USER_ERROR);}
+			trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $con->errno . ' ' . $con->error, E_USER_ERROR);
+		}
 		
-			//Bind parameters. Types: s = string, i = integer, d = double,  b = blob
-			$stmt->bind_param('i', mysql_real_escape_string($data["customerRequestId"]));
+		//Bind parameters. Types: s = string, i = integer, d = double,  b = blob
+		$stmt->bind_param('i', mysqli_real_escape_string($con, $data["customerRequestId"]));
+	
+		//Execute statement
+		$stmt->execute();
 		
-			//Execute statement
-			$stmt->execute();
-			
 		$result = (array('result' => true));
 	}
 

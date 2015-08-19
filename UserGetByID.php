@@ -1,9 +1,16 @@
 <?php
+/*
+ * 	01-07-2015 cm.choong : created
+ */
 	include 'config.php';
 	include 'opendb.php';
+	include 'DBUtils.php';
 	
- 	$userId = $_POST["userId"];
-    //$userId = 3;
+	if(!$debug){
+ 		$userId = $_POST["userId"];
+	}else{
+		$userId = 3;
+	}
 	
     $sql = 	"SELECT userId, name ".
     		"FROM user ".
@@ -19,10 +26,8 @@
 	
 	//Execute statement 
 	$stmt->execute();
-	
-	/* Fetch result to array */
-	$res = $stmt->get_result();
-	$data = $res->fetch_array(MYSQLI_ASSOC);
+	$stmt->store_result();
+	$data = fetchRow($stmt);
 	
 
     echo json_encode($data);

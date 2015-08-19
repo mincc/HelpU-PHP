@@ -1,14 +1,22 @@
 <?php
+/*
+ * 	01-07-2015 cm.choong : created
+ *	18-08-2015 cm.choong : Add avgRatedValue column
+ */
 	include 'config.php';
 	include 'opendb.php';
+	include 'DBUtils.php';
 	
-    $userId = $_POST["userId"];
-    //$userId = 3;
+	if(!$debug){
+    	$userId = $_POST["userId"];
+	}else{
+		$userId = 3;
+	}
 	
 	// query the application data
-	$sql = 	"SELECT sp.serviceProviderId, sp.userId, sp.serviceId, sp.phone, sp.email, ".
+	$sql = 	"SELECT sp.serviceProviderId, sp.userId, sp.serviceId, sp.phone, sp.email, sp.avgRatedValue, ".
 			"u.name AS userName, s.serviceName ".
-			"FROM ServiceProvider sp ".
+			"FROM serviceprovider sp ".
 			"INNER JOIN user u ON sp.userId = u.userId ".
 			"INNER JOIN service s ON sp.serviceId = s.serviceId ".
 			"WHERE sp.userId = ?";
@@ -25,13 +33,7 @@
 	$stmt->execute();
 	
 	// an array to save the application data
-    $service_providers = array();
-	
-	/* Fetch result to array */
-	$res = $stmt->get_result();
-	while($row = $res->fetch_array(MYSQLI_ASSOC)) {
-		array_push($service_providers, $row);
-	}
+    $service_providers = fetchArray($stmt);
 
     echo json_encode($service_providers);
     

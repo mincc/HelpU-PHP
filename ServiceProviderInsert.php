@@ -7,7 +7,7 @@
     $phone = $_POST["phone"];
     $email = $_POST["email"];
 	
-    $statement = mysqli_prepare($con, "INSERT INTO SERVICEPROVIDER (userId, serviceId, phone, email) VALUES (?, ?, ?, ?)");
+    $statement = mysqli_prepare($con, "INSERT INTO serviceprovider (userId, serviceId, phone, email) VALUES (?, ?, ?, ?)");
     mysqli_stmt_bind_param($statement, "iiss", $user_id, $service_id, $phone, $email);
     mysqli_stmt_execute($statement);
     

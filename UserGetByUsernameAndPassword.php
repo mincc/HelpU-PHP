@@ -1,28 +1,34 @@
 <?php
+/*
+ * 	01-07-2015 cm.choong : created
+ */
 	include 'config.php';
 	include 'opendb.php';
+	include 'DBUtils.php';
 	
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+	if(!$debug){
+   	 	$username = $_POST["username"];
+    	$password = $_POST["password"];
+	}else{
+	 	$username = "cm.choong";
+		$password = "Password123";
+	}
 	
-    $statement = mysqli_prepare($con, "SELECT * FROM user WHERE username = ? AND password = ?");
-    mysqli_stmt_bind_param($statement, "ss", $username, $password);
-    mysqli_stmt_execute($statement);
+    $sql = 	"SELECT * FROM user WHERE username = ? AND password = ?";
     
-    mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $userId, $name, $age, $username, $password);
+    //Prepare statement
+    $stmt = $con->prepare($sql);
+    if($stmt === false) {
+    	trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $con->errno . ' ' . $con->error, E_USER_ERROR);}
     
-    $user = array();
+	//Bind parameters. Types: s = string, i = integer, d = double,  b = blob
+ 	$stmt->bind_param('ss', $username, $password);
     
-    while(mysqli_stmt_fetch($statement)){
-		$user["userId"] = $userId;
-        $user["name"] = $name;
-        $user["age"] = $age;
-        $user["username"] = $username;
-        $user["password"] = $password;
-    }
+	$stmt->execute();
+	$stmt->store_result();
+	$data = fetchRow($stmt);
     
-    echo json_encode($user);
+    echo json_encode($data);
 	
     include 'closedb.php';
 ?>

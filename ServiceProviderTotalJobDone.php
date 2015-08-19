@@ -4,7 +4,6 @@
  */
 	include 'config.php';
 	include 'opendb.php';
-	include 'DBUtils.php';
 	
 	if(!$debug){
     	$userId = $_POST["userId"];
@@ -12,17 +11,13 @@
 		$userId = 9;
 	}
 	
-    $sql = 	"SELECT cr.customerRequestId, cr.serviceId, cr.description, cr.userId, cr.projectStatusId, ".
-			"cr.serviceProviderId, cr.quotation, u.name AS userName, s.serviceName,ps.name As projectStatusName ".
+    $sql = 	"SELECT Count(*) AS Total ".
 			"FROM serviceprovider sp ".
 			"INNER JOIN user u ON sp.userId = u.userId ".
 			"INNER JOIN customerrequest cr ON sp.serviceProviderId = cr.serviceProviderId ".
-			"INNER JOIN service s ON sp.serviceId = s.serviceId ".
-			"INNER JOIN projectstatus ps ON cr.projectStatusId = ps.projectStatusId ".
-			"WHERE cr.projectStatusId = 9 ".
+			"WHERE cr.projectStatusId = 15 ".
 			"AND cr.serviceProviderId is not null ".
-			"AND sp.userId = ? ";
-    
+			"AND sp.userId = ? LIMIT 1";
     
 	//Prepare statement
 	$stmt = $con->prepare($sql);
@@ -34,10 +29,14 @@
 	
 	//Execute statement 
 	$stmt->execute();
-	$stmt->store_result();
-	$data = fetchRow($stmt);
 	
-
+	$stmt->bind_result($data);
+	
+	/* fetch values */
+	while ($stmt->fetch()) {
+		$data = (array('Total' => $data));
+	}
+	
     echo json_encode($data);
 	
     

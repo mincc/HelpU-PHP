@@ -1,9 +1,13 @@
 <?php
-// 	include 'config.php';
-// 	include 'opendb.php';
-
-// 	$customerRequestId = 5;
-	$customerRequestId = $_POST["customerRequestId"];
+/*
+ * 	12-07-2015 cm.choong : created
+ */
+ 
+	if(!$debug){
+		$customerRequestId = $_POST["customerRequestId"];
+	}else{
+		$customerRequestId = 44;
+	}
 
 	//Close the customer request if both side already rating
 	$sql = 	"SELECT COUNT(*) AS Total FROM rating ".
@@ -19,11 +23,13 @@
 
 	//Execute statement
 	$stmt->execute();
-
-	/* Fetch result to array */
-	$res = $stmt->get_result();
-	$data = $res->fetch_array(MYSQLI_ASSOC);
-
+	$stmt->bind_result($data);
+	
+	/* fetch values */
+	while ($stmt->fetch()) {
+		$data = (array('Total' => $data));
+	}
+	
 	if($data[Total] >= 2)
 	{
 		$sql=	"UPDATE customerrequest ".
@@ -37,5 +43,4 @@
 		mysqli_stmt_close($statement);
 	}
 	
-//  	include 'closedb.php';
 ?>

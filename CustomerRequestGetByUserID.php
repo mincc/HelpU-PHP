@@ -1,9 +1,17 @@
 <?php
+/*
+ * 	01-07-2015 cm.choong : created
+ *	17-08-2015 cm.choong : filter by project state "Remove By View"
+ */
 	include 'config.php';
 	include 'opendb.php';
+	include 'DBUtils.php';
 	
-    $userId = $_POST["userId"];
-	//$userId = 1;
+	if(!$debug){
+    	$userId = $_POST["userId"];
+	}else{
+		$userId = 1;
+	}
 	
 	// query the application data
 	$sql = 	"SELECT cr.customerRequestId, cr.serviceId, cr.description, cr.userId, cr.projectStatusId,".
@@ -12,7 +20,8 @@
 			"INNER JOIN user u ON cr.userId = u.userId ".
 			"INNER JOIN service s ON cr.serviceId = s.serviceId ".
 			"INNER JOIN projectstatus ps ON cr.projectStatusId = ps.projectStatusId ".
-			"WHERE cr.userId = ?";
+			"WHERE cr.userId = ? ".
+			"AND cr.projectStatusId <> 16"; //Remove from view
 	
 	//Prepare statement
 	$stmt = $con->prepare($sql);
@@ -24,15 +33,7 @@
 	
 	//Execute statement 
 	$stmt->execute();
-	
-	// an array to save the application data
-    $service_providers = array();
-	
-	/* Fetch result to array */
-	$res = $stmt->get_result();
-	while($row = $res->fetch_array(MYSQLI_ASSOC)) {
-		array_push($service_providers, $row);
-	}
+    $service_providers = fetchArray($stmt);
 
     echo json_encode($service_providers);
     
