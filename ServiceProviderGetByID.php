@@ -2,6 +2,7 @@
 /*
  * 	01-07-2015 cm.choong : created
  *	18-08-2015 cm.choong : Add avgRatedValue column
+ 
  */
 	include 'config.php';
 	include 'opendb.php';

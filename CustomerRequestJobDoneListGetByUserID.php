@@ -1,13 +1,23 @@
 <?php
+
+/*
+ * 	01-07-2015 cm.choong : created
+ *  09-09-2015 cm.choong : add customerRatingValue, serviceProviderRatingValue, alreadyReadNotification;
+ *  12-09-2015 cm.choong : add userEmail and userContact
+ */
 	include 'config.php';
 	include 'opendb.php';
 	include 'DBUtils.php';
 	
-   	$userId = $_POST["userId"];
-    //$userId = 9;
+	if(!$debug){
+   		$userId = $_POST["userId"];
+	}else{
+    	$userId = 9;
+	}
 	
     $sql = 	"SELECT cr.customerRequestId, cr.serviceId, cr.description, cr.userId, cr.projectStatusId, ".
-			"cr.serviceProviderId, cr.quotation, u.name AS userName, s.serviceName,ps.name As projectStatusName ".
+			"cr.serviceProviderId, cr.quotation, cr.customerRatingValue, cr.serviceProviderRatingValue, cr.alreadyReadNotification, ".
+			"u.name AS userName, u.userEmail, u.userContact, s.serviceName,ps.name As projectStatusName ".
 			"FROM serviceprovider sp ".
 			"INNER JOIN user u ON sp.userId = u.userId ".
 			"INNER JOIN customerrequest cr ON sp.serviceProviderId = cr.serviceProviderId ".

@@ -2,6 +2,7 @@
 /*
  * 	15-07-2015 cm.choong : created
  *  18-08-2015 cm.choong : update the service provider ratingValue column
+ *  09-09-2015 cm.choong : update the customerRatingValue, serviceProviderRatingValue
  */
 	include 'config.php';
 	include 'opendb.php';
@@ -35,22 +36,22 @@
     //Change the status of customer request
     if ($ratingType == "s") {
     	 $sql=	"UPDATE customerrequest ".
-				"SET projectStatusId = 13 ". //Customer Rating (Customer give service provider rating)
+				"SET projectStatusId = 13". //Customer Rating (Customer give service provider rating)
+				", serviceProviderRatingValue = ? ".
 				"WHERE customerRequestId = ?";
 
     }else if ($ratingType == "c") {
     	$sql=	"UPDATE customerrequest ".
 				"SET projectStatusId = 14 ". //Service Provider Rating (Provider service give customer rating)
+				", customerRatingValue = ? ".
 				"WHERE customerRequestId = ?";
     }
     
     $statement = mysqli_prepare($con, $sql);
-    mysqli_stmt_bind_param($statement, "i", $customerRequestId);
+    mysqli_stmt_bind_param($statement, "di", $ratingValue, $customerRequestId);
     mysqli_stmt_execute($statement);
     
     mysqli_stmt_close($statement);
-    
-    include 'RatingCloseCustomerRequestCase.php';
     
     if ($ratingType == "s") {
     	include 'RatingGetServiceProviderRatingByServiceId.php';
