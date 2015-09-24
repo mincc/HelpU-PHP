@@ -1,6 +1,7 @@
 <?php
 /*
  * 	01-07-2015 cm.choong : created
+ * 23-09-2015 cm.choong : dont use *  but use column name
  */
 	include 'config.php';
 	include 'opendb.php';
@@ -14,7 +15,11 @@
 		$password = "Password123";
 	}
 	
-    $sql = 	"SELECT * FROM user WHERE username = ? AND password = ?";
+    $sql = 	"SELECT userId, name, username, userContact ". 
+			", userEmail, userAvgRatedValue, userJoinDate ".
+      		"FROM user ".
+    		"WHERE username = ? ".
+    		"AND password = ? ";
     
     //Prepare statement
     $stmt = $con->prepare($sql);

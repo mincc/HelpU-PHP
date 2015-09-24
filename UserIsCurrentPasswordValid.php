@@ -1,7 +1,6 @@
 <?php
 /*
- * 	21-08-2015 cm.choong : created
- *  21-09-2015 cm.choong : Add isDelete filter
+ * 	22-09-2015 cm.choong : created
  */
 	include 'config.php';
 	include 'opendb.php';
@@ -9,17 +8,16 @@
 	
 	if(!$debug){
     	$userId = $_POST["userId"];
-    	$serviceId = $_POST["serviceId"];
+    	$password = $_POST["currentPassword"];
 	}else{
-		$userId = 97;
-		$serviceId = 1;
+		$userId = 3;
+		$password = "Password12345";
 	}
 	
-    $sql = 	"SELECT serviceProviderId ".
-			"FROM serviceprovider ".
+    $sql = 	"SELECT userId ". 
+			"FROM user ".
 			"WHERE userId = ? ".
-			"AND serviceId = ? ".
-    		"AND isDelete = 0 LIMIT 1 ";
+    		"AND password = ? LIMIT 1";
     
 	//Prepare statement
 	$stmt = $con->prepare($sql);
@@ -27,12 +25,12 @@
 	  trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $con->errno . ' ' . $con->error, E_USER_ERROR);}
 	
 
-	$stmt->bind_param('ii', $userId, $serviceId);
+	$stmt->bind_param('is', $userId, $password);
 	$stmt->execute();
 	$stmt->store_result();
 	$data = fetchRow($stmt);
 	
-	if (mysqli_real_escape_string($con, $data["serviceProviderId"])==null) {
+	if (mysqli_real_escape_string($con, $data["userId"])==null) {
 		//result no exist
 		$result = (array('result' => false));
 	} else {

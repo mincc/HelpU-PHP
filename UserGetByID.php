@@ -1,6 +1,7 @@
 <?php
 /*
- * 	01-07-2015 cm.choong : created
+ * 01-07-2015 cm.choong : created
+ * 23-09-2015 cm.choong : dont use *  but use column name
  */
 	include 'config.php';
 	include 'opendb.php';
@@ -12,8 +13,9 @@
 		$userId = 3;
 	}
 	
-    $sql = 	"SELECT userId, name ".
-    		"FROM user ".
+    $sql =	"SELECT userId, name, username, userContact ". 
+			", userEmail, userAvgRatedValue, userJoinDate ".
+			"FROM user ".
     		"WHERE userId = ?";
     
 	//Prepare statement

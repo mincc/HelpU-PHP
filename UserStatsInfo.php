@@ -3,6 +3,7 @@
  * 	29-08-2015 cm.choong : created
  *  05-09-2015 cm.choong : Add totalCustomerRequestNotification COUNT
  *  09-09-2015 cm.choong : alreadyReadNotification checking
+ *  21-09-2015 cm.choong : filter by isDelete
  */
 
 	include 'config.php';
@@ -33,7 +34,8 @@
 
 	$sql = 	"SELECT COUNT(*) AS totalServiceProvider ".
 			"FROM serviceprovider ".
-			"WHERE userId=?";
+			"WHERE userId=? ".
+			"AND isDelete = 0 ";
 	
 	$stmt = $con->prepare($sql);
 	if($stmt === false) {

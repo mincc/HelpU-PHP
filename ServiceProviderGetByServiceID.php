@@ -1,7 +1,9 @@
 <?php
 /*
- * 	01-07-2015 cm.choong : created
- *	18-08-2015 cm.choong : Add avgRatedValue column
+ * 01-07-2015 cm.choong : created
+ * 18-08-2015 cm.choong : Add avgRatedValue column
+ * 21-09-2015 cm.choong : Add isDelete filter
+ *  
  */
 	include 'config.php';
 	include 'opendb.php';
@@ -22,7 +24,8 @@
 			"INNER JOIN user u ON sp.userId = u.userId ".
 			"INNER JOIN service s ON sp.serviceId = s.serviceId ".
 			"WHERE sp.serviceId = ? ".
-			"And sp.userId <> ?";
+			"AND sp.userId <> ? ".
+			"AND isDelete = 0 ";
 	
 	//Prepare statement
 	$stmt = $con->prepare($sql);
