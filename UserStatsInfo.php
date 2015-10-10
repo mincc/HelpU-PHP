@@ -4,6 +4,7 @@
  *  05-09-2015 cm.choong : Add totalCustomerRequestNotification COUNT
  *  09-09-2015 cm.choong : alreadyReadNotification checking
  *  21-09-2015 cm.choong : filter by isDelete
+ *  01-10-2015 cm.choong : update lastOnline represent user still active
  */
 
 	include 'config.php';
@@ -12,9 +13,17 @@
 	if(!$debug){
 		$userId = $_POST["userId"];
 	}else{
-		$userId = 3;
+		$userId = 1;
 	}
 	
+	$sql=	"UPDATE user ".
+			"SET lastOnline = ? ".
+			"WHERE userId = ? ";
+	
+	$currDateTime = date('Y-m-d G:i:s');
+	$stmt = $con->prepare($sql);
+	$stmt->bind_param('ss', $currDateTime, $userId);
+	$stmt->execute();
 
 	$sql = 	"SELECT COUNT(*) AS totalCustomerRequest ".
 			"FROM customerrequest ".

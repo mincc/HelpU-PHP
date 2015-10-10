@@ -1,7 +1,8 @@
 <?php
 /*
- * 	01-07-2015 cm.choong : created
+ * 01-07-2015 cm.choong : created
  * 23-09-2015 cm.choong : dont use *  but use column name
+ * 01-10-2015 cm.choong : add isAdmin, login column
  */
 	include 'config.php';
 	include 'opendb.php';
@@ -15,8 +16,18 @@
 		$password = "Password123";
 	}
 	
+	$sql=	"UPDATE user ".
+			"SET login = ? ".
+			"WHERE username = ? ".
+    		"AND password = ? ";
+
+	$currDateTime = date('Y-m-d G:i:s');
+	$stmt = $con->prepare($sql);
+	$stmt->bind_param('sss', $currDateTime, $username, $password);
+	$stmt->execute();
+	
     $sql = 	"SELECT userId, name, username, userContact ". 
-			", userEmail, userAvgRatedValue, userJoinDate ".
+			", userEmail, userAvgRatedValue, userJoinDate, isAdmin ".
       		"FROM user ".
     		"WHERE username = ? ".
     		"AND password = ? ";

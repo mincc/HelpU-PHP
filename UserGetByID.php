@@ -2,6 +2,7 @@
 /*
  * 01-07-2015 cm.choong : created
  * 23-09-2015 cm.choong : dont use *  but use column name
+ * 01-10-2015 cm.choong : add isAdmin column
  */
 	include 'config.php';
 	include 'opendb.php';
@@ -10,11 +11,11 @@
 	if(!$debug){
  		$userId = $_POST["userId"];
 	}else{
-		$userId = 3;
+		$userId = 1;
 	}
 	
     $sql =	"SELECT userId, name, username, userContact ". 
-			", userEmail, userAvgRatedValue, userJoinDate ".
+			", userEmail, userAvgRatedValue, userJoinDate, isAdmin ".
 			"FROM user ".
     		"WHERE userId = ?";
     

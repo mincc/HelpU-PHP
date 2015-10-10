@@ -35,5 +35,6 @@
 	// echo $dbdatabase;
 	
 	$debug = false;
-	
+
+	date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>

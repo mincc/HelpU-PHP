@@ -2,6 +2,7 @@
 /*
  * 22-09-2015 cm.choong : created
  * 23-09-2015 cm.choong : retrieve user info
+ * 01-10-2015 cm.choong : add isAdmin column
  */
 	include 'config.php';
 	include 'opendb.php';
@@ -30,7 +31,7 @@
 	$stmt->execute();
 	
 	$sql = 	"SELECT userId, name, username, userContact ". 
-			", userEmail, userAvgRatedValue, userJoinDate ".
+			", userEmail, userAvgRatedValue, userJoinDate, isAdmin ".
 			"FROM user ".
 			"WHERE userEmail = ? ";
 	

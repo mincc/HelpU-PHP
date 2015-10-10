@@ -1,8 +1,8 @@
 <?php
 /*
- * 	01-07-2015 cm.choong : created
- *	18-08-2015 cm.choong : Add avgRatedValue column
- 
+ * 01-07-2015 cm.choong : created
+ * 18-08-2015 cm.choong : Add avgRatedValue column
+ * 01-10-2015 cm.choong : get lastOnline value
  */
 	include 'config.php';
 	include 'opendb.php';
@@ -15,7 +15,7 @@
 	}
 	
  	$sql = 	"SELECT sp.serviceProviderId, sp.userId, sp.serviceId, sp.phone, sp.email, sp.avgRatedValue, ".
- 			"u.name AS userName, s.serviceName ".
+ 			"u.name AS userName, s.serviceName, u.lastOnline AS lastOnline ".
  			"FROM serviceprovider sp ".
  			"INNER JOIN user u ON sp.userId = u.userId ".
  			"INNER JOIN service s ON sp.serviceId = s.serviceId ".
