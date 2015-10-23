@@ -3,10 +3,12 @@
  * 	01-07-2015 cm.choong : created
  *  09-09-2015 cm.choong : add customerRatingValue, serviceProviderRatingValue, alreadyReadNotification;
  *  12-09-2015 cm.choong : add userEmail and userContact
+ *  20-10-2015 cm.choong : require_once 'DBUtils.php'
+ *  23-10-2015 cm.choong : replace projectStatusId = 16 to isDelete
  */
 	include 'config.php';
 	include 'opendb.php';
-	include 'DBUtils.php';
+	require_once 'DBUtils.php';
 	
 	if(!$debug){
     	$userId = $_POST["userId"];
@@ -24,6 +26,7 @@
 			"INNER JOIN projectstatus ps ON cr.projectStatusId = ps.projectStatusId ".
 			"WHERE cr.projectStatusId = 4 ".
 			"AND cr.serviceProviderId is not null ".
+			"AND cr.isDelete = 0 ".
 			"AND sp.userId = ? ";
     
     

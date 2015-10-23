@@ -3,10 +3,12 @@
  * 22-09-2015 cm.choong : created
  * 23-09-2015 cm.choong : retrieve user info
  * 01-10-2015 cm.choong : add isAdmin column
+ * 15-10-2015 cm.choong : add gcmRegId
+ * 20-10-2015 cm.choong : require_once 'DBUtils.php'
  */
 	include 'config.php';
 	include 'opendb.php';
-	include 'DBUtils.php';
+	require_once 'DBUtils.php';
 	
 	if(!$debug)
 	{
@@ -31,7 +33,7 @@
 	$stmt->execute();
 	
 	$sql = 	"SELECT userId, name, username, userContact ". 
-			", userEmail, userAvgRatedValue, userJoinDate, isAdmin ".
+			", userEmail, userAvgRatedValue, userJoinDate, isAdmin, gcmRegId ".
 			"FROM user ".
 			"WHERE userEmail = ? ";
 	

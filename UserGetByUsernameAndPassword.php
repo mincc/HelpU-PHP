@@ -3,10 +3,12 @@
  * 01-07-2015 cm.choong : created
  * 23-09-2015 cm.choong : dont use *  but use column name
  * 01-10-2015 cm.choong : add isAdmin, login column
+ * 15-10-2015 cm.choong : add gcmRegId
+ * 20-10-2015 cm.choong : require_once 'DBUtils.php'
  */
 	include 'config.php';
 	include 'opendb.php';
-	include 'DBUtils.php';
+	require_once 'DBUtils.php';
 	
 	if(!$debug){
    	 	$username = $_POST["username"];
@@ -27,7 +29,7 @@
 	$stmt->execute();
 	
     $sql = 	"SELECT userId, name, username, userContact ". 
-			", userEmail, userAvgRatedValue, userJoinDate, isAdmin ".
+			", userEmail, userAvgRatedValue, userJoinDate, isAdmin, gcmRegId ".
       		"FROM user ".
     		"WHERE username = ? ".
     		"AND password = ? ";

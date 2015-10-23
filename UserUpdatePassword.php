@@ -1,10 +1,11 @@
 <?php
 /*
- * 	22-09-2015 cm.choong : created
+ * 22-09-2015 cm.choong : created
+ * 20-10-2015 cm.choong : require_once 'DBUtils.php'
  */
 	include 'config.php';
 	include 'opendb.php';
-	include 'DBUtils.php';
+	require_once 'DBUtils.php';
 	
 	if(!$debug)
 	{

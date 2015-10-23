@@ -20,7 +20,7 @@ class ProjectStatus extends AbstractEnum
 	public static $CustomerRating;
 	public static $ServiceProvRating;
 	public static $ProjectClose;
-	public static $RemoveFromView;
+// 	public static $RemoveFromView;
 	public static $TotallyRemoved;
 	public static $Reselect;
 	public static $ConfirmRequestNotification;
@@ -52,7 +52,7 @@ class ProjectStatus extends AbstractEnum
 		self::$CustomerRating = self::enum(13, 'Customer Rating');
 		self::$ServiceProvRating = self::enum(14, 'Service Provider Rating');
 		self::$ProjectClose = self::enum(15, 'Project Close');
-		self::$RemoveFromView = self::enum(16, 'Remove From View');
+// 		self::$RemoveFromView = self::enum(16, 'Remove From View');
 		self::$TotallyRemoved = self::enum(17, 'Totally Removed');
 		self::$Reselect = self::enum(18, 'Reselect');
 		self::$ConfirmRequestNotification = self::enum(19, 'Comfirm Request Notification');

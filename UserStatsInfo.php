@@ -5,6 +5,7 @@
  *  09-09-2015 cm.choong : alreadyReadNotification checking
  *  21-09-2015 cm.choong : filter by isDelete
  *  01-10-2015 cm.choong : update lastOnline represent user still active
+ *  23-10-2015 cm.choong : replace projectStatusId = 16 to isDelete
  */
 
 	include 'config.php';
@@ -28,7 +29,7 @@
 	$sql = 	"SELECT COUNT(*) AS totalCustomerRequest ".
 			"FROM customerrequest ".
 			"WHERE userId=? ".
-			"And projectStatusId <> 16"; //Remove from view";
+			"And isDelete = 0 ";
 
 	$stmt = $con->prepare($sql);
 	if($stmt === false) {
@@ -83,7 +84,7 @@
 			"INNER JOIN customerrequest cr ON sp.serviceProviderId = cr.serviceProviderId ".
 			"WHERE cr.projectStatusId >= 3 ".
 			"AND cr.projectStatusId <> 15 ".
-			"AND cr.projectStatusId <> 16 ". //Remove from view";
+			"AND cr.isDelete = 0 ".
 			"AND cr.serviceProviderId is not null ".
 			"AND sp.userId = ? LIMIT 1";
 	

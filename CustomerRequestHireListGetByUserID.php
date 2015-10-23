@@ -4,10 +4,12 @@
  *	17-08-2015 cm.choong : filter by project state "Remove By View"
  *  09-09-2015 cm.choong : add customerRatingValue, serviceProviderRatingValue, alreadyReadNotification;
  *  12-09-2015 cm.choong : add userEmail and userContact
+ *  20-10-2015 cm.choong : require_once 'DBUtils.php'
+ *  23-10-2015 cm.choong : replace projectStatusId = 16 to isDelete
  */
 	include 'config.php';
 	include 'opendb.php';
-	include 'DBUtils.php';
+	require_once 'DBUtils.php';
 	
 	if(!$debug){
     	$userId = $_POST["userId"];
@@ -24,7 +26,7 @@
 			"INNER JOIN service s ON cr.serviceId = s.serviceId ".
 			"INNER JOIN projectstatus ps ON cr.projectStatusId = ps.projectStatusId ".
 			"WHERE cr.userId = ? ".
-			"AND cr.projectStatusId <> 16"; //Remove from view
+			"AND cr.isDelete = 0 "; 
 	
 	//Prepare statement
 	$stmt = $con->prepare($sql);

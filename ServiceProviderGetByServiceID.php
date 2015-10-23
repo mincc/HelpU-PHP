@@ -4,11 +4,11 @@
  * 18-08-2015 cm.choong : Add avgRatedValue column
  * 21-09-2015 cm.choong : Add isDelete filter
  * 01-10-2015 cm.choong : get lastOnline value
- *  
+ * 20-10-2015 cm.choong : require_once 'DBUtils.php'
  */
 	include 'config.php';
 	include 'opendb.php';
-	include 'DBUtils.php';
+	require_once 'DBUtils.php';
 	
 	if(!$debug){
     	$serviceId = $_POST["serviceId"];

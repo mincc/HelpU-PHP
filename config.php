@@ -37,4 +37,10 @@
 	$debug = false;
 
 	date_default_timezone_set("Asia/Kuala_Lumpur");
+	
+	/*
+	 * Google API Key
+	 */
+	if (!defined('GOOGLE_API_KEY'))
+		define("GOOGLE_API_KEY", "AIzaSyCgzCdApBDAKgQII-zMJRFqHHBFZEt__tg"); // Place your Google API Key
 ?>

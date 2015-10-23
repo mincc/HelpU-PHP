@@ -1,15 +1,16 @@
 <?php
 /*
- * 	21-08-2015 cm.choong : created
+ * 21-08-2015 cm.choong : created
+ * 20-10-2015 cm.choong : require_once 'DBUtils.php'
  */
 	include 'config.php';
 	include 'opendb.php';
-	include 'DBUtils.php';
+	require_once 'DBUtils.php';
 	
 	if(!$debug){
     	$username = $_POST["username"];
 	}else{
-		$username = "cm.choong";
+		$username = "apple";
 	}
 	
     $sql = 	"SELECT userId ". 
